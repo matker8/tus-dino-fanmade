@@ -1,0 +1,140 @@
+(function() {
+  // Log message when the script is loaded
+  console.log("tus dino fanmade loaded have fun with this cheat panel");
+
+  // Create Mod Menu
+  let menu = document.createElement('div');
+  menu.style.position = 'fixed';
+  menu.style.top = '10px';
+  menu.style.left = '10px';
+  menu.style.background = 'linear-gradient(135deg, #ff4e50, #f9d423)';
+  menu.style.borderRadius = '15px';
+  menu.style.color = '#fff';
+  menu.style.padding = '20px';
+  menu.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.5)';
+  menu.style.fontFamily = '"Comic Sans MS", cursive, sans-serif';
+  menu.style.fontSize = '16px';
+  menu.style.textAlign = 'center';
+  menu.style.zIndex = 9999;
+  menu.style.animation = 'menuPop 0.5s ease-in-out';
+  menu.style.cursor = 'move';  // Add cursor indicator for dragging
+
+  // Add CSS animation for the menu pop effect
+  let style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes menuPop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    button {
+      background-color: #fff;
+      color: #333;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px 0;
+      border-radius: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #f9d423;
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+  `;
+  document.head.appendChild(style);
+
+  menu.innerHTML = `
+    <h2 style="font-size: 24px; margin-bottom: 20px;">✨ TUS Dino Mod Menu ✨</h2>
+    <button id="speedHack">🚀 Toggle Speed Hack</button><br>
+    <button id="jumpHack">🦘 Toggle Jump Height</button><br>
+    <button id="gravityHack">🌕 Toggle Low Gravity</button><br>
+    <button id="immortal">💀 Toggle Immortality</button>
+  `;
+  document.body.appendChild(menu);
+
+  // Variables for toggles
+  let isSpeedHackActive = false;
+  let isJumpHackActive = false;
+  let isGravityHackActive = false;
+  let isImmortal = false;
+
+  // Speed Hack Toggle
+  document.getElementById('speedHack').addEventListener('click', function() {
+    if (!isSpeedHackActive) {
+      Runner.instance_.setSpeed(100);  // Super fast speed
+      isSpeedHackActive = true;
+      alert('Speed Hack Activated 🚀');
+    } else {
+      Runner.instance_.setSpeed(6);    // Normal speed
+      isSpeedHackActive = false;
+      alert('Speed Hack Deactivated');
+    }
+  });
+
+  // Jump Height Hack Toggle
+  document.getElementById('jumpHack').addEventListener('click', function() {
+    if (!isJumpHackActive) {
+      Runner.instance_.tRex.setJumpVelocity(20);  // High jump
+      isJumpHackActive = true;
+      alert('High Jump Activated 🦘');
+    } else {
+      Runner.instance_.tRex.setJumpVelocity(10);  // Normal jump
+      isJumpHackActive = false;
+      alert('High Jump Deactivated');
+    }
+  });
+
+  // Gravity Hack Toggle
+  document.getElementById('gravityHack').addEventListener('click', function() {
+    if (!isGravityHackActive) {
+      Runner.instance_.currentSpeed = 0.1; // Lower gravity effect
+      isGravityHackActive = true;
+      alert('Low Gravity Activated 🌕');
+    } else {
+      Runner.instance_.currentSpeed = 1;  // Restore normal gravity
+      isGravityHackActive = false;
+      alert('Low Gravity Deactivated');
+    }
+  });
+
+  // Immortality Hack Toggle
+  document.getElementById('immortal').addEventListener('click', function() {
+    if (!isImmortal) {
+      Runner.instance_.gameOver = function() {};  // Disable game over
+      isImmortal = true;
+      alert('Immortality Activated 💀');
+    } else {
+      Runner.instance_.gameOver = Runner.prototype.gameOver;  // Restore game over functionality
+      isImmortal = false;
+      alert('Immortality Deactivated');
+    }
+  });
+
+  // Draggable Menu
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  menu.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    offsetX = e.clientX - menu.getBoundingClientRect().left;
+    offsetY = e.clientY - menu.getBoundingClientRect().top;
+    menu.style.opacity = '0.8';  // Add some opacity while dragging
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (isDragging) {
+      menu.style.left = `${e.clientX - offsetX}px`;
+      menu.style.top = `${e.clientY - offsetY}px`;
+    }
+  });
+
+  document.addEventListener('mouseup', function() {
+    isDragging = false;
+    menu.style.opacity = '1';  // Restore opacity after dragging
+  });
+
+})();
