@@ -1,0 +1,211 @@
+(function() {
+  // Log message when the script is loaded
+  console.log("tus dino fanmade loaded have fun with this cheat panel");
+
+  // Create Main Mod Menu
+  let menu = document.createElement('div');
+  menu.style.position = 'fixed';
+  menu.style.top = '10px';
+  menu.style.left = '10px';
+  menu.style.background = 'linear-gradient(135deg, #ff4e50, #f9d423)';
+  menu.style.borderRadius = '15px';
+  menu.style.color = '#fff';
+  menu.style.padding = '20px';
+  menu.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.5)';
+  menu.style.fontFamily = '"Comic Sans MS", cursive, sans-serif';
+  menu.style.fontSize = '16px';
+  menu.style.textAlign = 'center';
+  menu.style.zIndex = 9999;
+  menu.style.animation = 'menuPop 0.5s ease-in-out';
+  menu.style.cursor = 'move';  // Add cursor indicator for dragging
+
+  // Add CSS animation for the menu pop effect
+  let style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes menuPop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    button {
+      background-color: #fff;
+      color: #333;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px 0;
+      border-radius: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #f9d423;
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+    .hidden {
+      display: none;
+    }
+    .otherMods {
+      background: linear-gradient(135deg, #36d1dc, #5b86e5);
+      border-radius: 15px;
+      padding: 10px;
+      margin-top: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Main mod menu HTML
+  menu.innerHTML = `
+    <h2 style="font-size: 24px; margin-bottom: 20px;">✨ TUS Dino Mod Menu ✨</h2>
+    <button id="speedHack">🚀 Toggle Speed Hack</button><br>
+    <button id="jumpHack">🦘 Toggle Jump Height</button><br>
+    <button id="gravityHack">🌕 Toggle Low Gravity</button><br>
+    <button id="immortal">💀 Toggle Immortality</button><br>
+    <button id="otherModsToggle">⚙️ Show Other Mods</button><br>
+  `;
+  document.body.appendChild(menu);
+
+  // Create Other Mods Panel (initially hidden)
+  let otherMods = document.createElement('div');
+  otherMods.classList.add('hidden', 'otherMods');
+  otherMods.innerHTML = `
+    <h3 style="font-size: 20px; color: #fff;">Other Mods</h3>
+    <button id="nightMode">🌙 Toggle Night Mode</button><br>
+    <button id="noObstacles">🏞 Remove Obstacles</button><br>
+    <button id="pauseGame">⏸ Pause Game</button>
+  `;
+  menu.appendChild(otherMods);
+
+  // Variables for toggles
+  let isSpeedHackActive = false;
+  let isJumpHackActive = false;
+  let isGravityHackActive = false;
+  let isImmortal = false;
+  let isNightMode = false;
+  let isNoObstacles = false;
+  let isGamePaused = false;
+
+  // Speed Hack Toggle
+  document.getElementById('speedHack').addEventListener('click', function() {
+    if (!isSpeedHackActive) {
+      Runner.instance_.setSpeed(100);  // Super fast speed
+      isSpeedHackActive = true;
+      alert('Speed Hack Activated 🚀');
+    } else {
+      Runner.instance_.setSpeed(6);    // Normal speed
+      isSpeedHackActive = false;
+      alert('Speed Hack Deactivated');
+    }
+  });
+
+  // Jump Height Hack Toggle
+  document.getElementById('jumpHack').addEventListener('click', function() {
+    if (!isJumpHackActive) {
+      Runner.instance_.tRex.setJumpVelocity(20);  // High jump
+      isJumpHackActive = true;
+      alert('High Jump Activated 🦘');
+    } else {
+      Runner.instance_.tRex.setJumpVelocity(10);  // Normal jump
+      isJumpHackActive = false;
+      alert('High Jump Deactivated');
+    }
+  });
+
+  // Gravity Hack Toggle
+  document.getElementById('gravityHack').addEventListener('click', function() {
+    if (!isGravityHackActive) {
+      Runner.instance_.currentSpeed = 0.1; // Lower gravity effect
+      isGravityHackActive = true;
+      alert('Low Gravity Activated 🌕');
+    } else {
+      Runner.instance_.currentSpeed = 1;  // Restore normal gravity
+      isGravityHackActive = false;
+      alert('Low Gravity Deactivated');
+    }
+  });
+
+  // Immortality Hack Toggle
+  document.getElementById('immortal').addEventListener('click', function() {
+    if (!isImmortal) {
+      Runner.instance_.gameOver = function() {};  // Disable game over
+      isImmortal = true;
+      alert('Immortality Activated 💀');
+    } else {
+      Runner.instance_.gameOver = Runner.prototype.gameOver;  // Restore game over functionality
+      isImmortal = false;
+      alert('Immortality Deactivated');
+    }
+  });
+
+  // Show/Hide Other Mods Panel
+  document.getElementById('otherModsToggle').addEventListener('click', function() {
+    otherMods.classList.toggle('hidden');  // Toggle visibility of other mods
+  });
+
+  // Other Mods - Night Mode Toggle
+  document.getElementById('nightMode').addEventListener('click', function() {
+    if (!isNightMode) {
+      document.body.style.backgroundColor = '#2c3e50';  // Change background to night mode
+      document.body.style.color = '#ecf0f1';  // Change text color to light
+      isNightMode = true;
+      alert('Night Mode Activated 🌙');
+    } else {
+      document.body.style.backgroundColor = '';  // Restore default background
+      document.body.style.color = '';  // Restore default text color
+      isNightMode = false;
+      alert('Night Mode Deactivated');
+    }
+  });
+
+  // Other Mods - Remove Obstacles
+  document.getElementById('noObstacles').addEventListener('click', function() {
+    if (!isNoObstacles) {
+      Runner.instance_.horizon.removeAllObstacles();  // Remove all obstacles
+      isNoObstacles = true;
+      alert('Obstacles Removed 🏞');
+    } else {
+      location.reload();  // Refresh page to restore obstacles
+      isNoObstacles = false;
+    }
+  });
+
+  // Other Mods - Pause Game
+  document.getElementById('pauseGame').addEventListener('click', function() {
+    if (!isGamePaused) {
+      Runner.instance_.stop();  // Pause the game
+      isGamePaused = true;
+      alert('Game Paused ⏸');
+    } else {
+      Runner.instance_.play();  // Resume the game
+      isGamePaused = false;
+      alert('Game Resumed ▶️');
+    }
+  });
+
+  // Draggable Menu
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  menu.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    offsetX = e.clientX - menu.getBoundingClientRect().left;
+    offsetY = e.clientY - menu.getBoundingClientRect().top;
+    menu.style.opacity = '0.8';  // Add some opacity while dragging
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (isDragging) {
+      menu.style.left = `${e.clientX - offsetX}px`;
+      menu.style.top = `${e.clientY - offsetY}px`;
+    }
+  });
+
+  document.addEventListener('mouseup', function() {
+    isDragging = false;
+    menu.style.opacity = '1';  // Restore opacity after dragging
+  });
+
+})();
